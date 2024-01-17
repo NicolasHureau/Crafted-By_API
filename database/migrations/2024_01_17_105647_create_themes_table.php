@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('themes', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('layer');
             $table->string('color_hex_1');
             $table->string('color_hex_2');

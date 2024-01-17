@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('business_specialities_pivot', function (Blueprint $table) {
-            $table->integer('business_id');
+            $table->foreignUuid('business_id');
             $table->foreign('business_id')
                 ->references('id')
                 ->on('businesses');
-            $table->integer('speciality_id');
+            $table->foreignUuid('speciality_id');
             $table->foreign('speciality_id')
                 ->references('id')
                 ->on('specialities');
