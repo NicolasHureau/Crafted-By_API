@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Business;
 use App\Models\City;
 use App\Models\Speciality;
-use App\Models\Status;
 use App\Models\Theme;
 use App\Models\User;
 use App\Models\Zip_code;

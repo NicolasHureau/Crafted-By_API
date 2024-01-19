@@ -5,15 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInvoicesRequest;
 use App\Http\Requests\UpdateInvoicesRequest;
 use App\Models\Invoice;
+use Illuminate\Http\JsonResponse;
 
 class InvoicesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): jsonResponse
     {
-        return response()->json(Invoice::all());
+        $invoices = Invoice::all();
+        $invoicesList = [];
+        foreach ($invoices as $invoice) {
+            $invoicesList[] = [
+                'id' => $invoice->id,
+                'status' => $invoice->status->last(),
+                'customer' => $invoice->customer,
+                'products' => $invoice->product,
+            ];
+        }
+        return response()->json($invoicesList);
     }
 
     /**
