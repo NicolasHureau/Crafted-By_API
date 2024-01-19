@@ -11,6 +11,8 @@ class Speciality extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'specialities';
+
     protected $fillable = [
         'name',
     ];

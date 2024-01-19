@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoice_status', function (Blueprint $table) {
-            $table->foreignUuid('invoice_id');
-            $table->foreign('invoice_id')
+        Schema::create('business_speciality', function (Blueprint $table) {
+            $table->foreignUuid('business_id');
+            $table->foreign('business_id')
                 ->references('id')
-                ->on('invoices');
-            $table->foreignUuid('status_id');
-            $table->foreign('status_id')
+                ->on('businesses');
+            $table->foreignUuid('speciality_id');
+            $table->foreign('speciality_id')
                 ->references('id')
-                ->on('status');
-            $table->timestamps();
+                ->on('specialities');
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoice_status_pivot');
+        Schema::dropIfExists('business_specialities_pivot');
     }
 };

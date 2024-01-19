@@ -11,6 +11,8 @@ class Zip_code extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'zip_code';
+
     public function user(): HasMany
     {
         return $this->hasMany(User::class);

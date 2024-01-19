@@ -12,6 +12,8 @@ class Status extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'status';
+
     protected $fillable = [
         'name',
         'number',
@@ -19,6 +21,6 @@ class Status extends Model
 
     public function invoices(): BelongsToMany
     {
-        return $this->belongsToMany(Invoices::class);
+        return $this->belongsToMany(Invoice::class);
     }
 }

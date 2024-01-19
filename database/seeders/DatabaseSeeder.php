@@ -3,6 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\City;
+use App\Models\Invoice;
+use App\Models\User;
+use App\Models\Zip_code;
+use Database\Factories\Zip_codeFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +17,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // \App\Models\UsersController::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
+        // \App\Models\UsersController::factory()->create([
+        //     'name' => 'Test UsersController',
         //     'email' => 'test@example.com',
         // ]);
+
+        $this->call([
+            UserSeeder::class,
+            BusinessSeeder::class,
+            ProductsSeeder::class,
+            StatusSeeder::class,
+            InvoicesSeeder::class,
+        ]);
     }
 }

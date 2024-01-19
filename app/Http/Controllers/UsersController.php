@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreInvoicesRequest;
-use App\Http\Requests\UpdateInvoicesRequest;
-use App\Models\Invoice;
+use App\Models\User;
+use Illuminate\Http\Request;
 
-class InvoicesController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response()->json(Invoice::all());
+        return response()->json(User::all());
     }
 
     /**
@@ -27,7 +26,7 @@ class InvoicesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreInvoicesRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -35,7 +34,7 @@ class InvoicesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Invoice $invoices)
+    public function show(UsersController $user)
     {
         //
     }
@@ -43,7 +42,7 @@ class InvoicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Invoice $invoices)
+    public function edit(UsersController $user)
     {
         //
     }
@@ -51,7 +50,7 @@ class InvoicesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateInvoicesRequest $request, Invoice $invoices)
+    public function update(Request $request, UsersController $user)
     {
         //
     }
@@ -59,7 +58,7 @@ class InvoicesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoice $invoices)
+    public function destroy(UsersController $user)
     {
         //
     }

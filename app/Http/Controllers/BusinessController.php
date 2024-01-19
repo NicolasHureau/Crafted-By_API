@@ -13,7 +13,7 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Business::all());
     }
 
     /**

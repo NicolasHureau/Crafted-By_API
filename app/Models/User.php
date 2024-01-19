@@ -58,7 +58,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Business::class);
     }
 
-    public function zip_code(): BelongsTo
+    public function zipCode(): BelongsTo
     {
         return $this->belongsTo(Zip_code::class);
     }
@@ -69,7 +69,7 @@ class User extends Authenticatable
 
     public function invoices(): HasMany
     {
-        return $this->hasMany(Invoices::class);
+        return $this->hasMany(Invoice::class);
     }
 
 //    public static function booted(): void

@@ -35,9 +35,9 @@ class Business extends Model
         'email_verified_at' => 'datetime',
     ];
 
-    public function Owner(): BelongsToMany
+    public function owner(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_id');
+        return $this->belongsToMany(User::class, 'user_business');
     }
 
     public function speciality(): BelongsToMany
@@ -45,7 +45,7 @@ class Business extends Model
         return $this->belongsToMany(Speciality::class);
     }
 
-    public function zip_code(): BelongsTo
+    public function zipCode(): BelongsTo
     {
         return $this->belongsTo(Zip_code::class);
     }

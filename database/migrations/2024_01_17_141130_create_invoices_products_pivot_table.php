@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoices_products_pivot', function (Blueprint $table) {
+        Schema::create('invoice_products', function (Blueprint $table) {
             $table->foreignUuid('invoice_id');
             $table->foreign('invoice_id')
                 ->references('id')
                 ->on('invoices');
-            $table->foreignUuid('product_id');
-            $table->foreign('product_id')
+            $table->foreignUuid('products_id');
+            $table->foreign('products_id')
                 ->references('id')
                 ->on('products');
             $table->integer('quantity')->unsigned();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices_products_pivot');
+        Schema::dropIfExists('invoice_products_pivot');
     }
 };

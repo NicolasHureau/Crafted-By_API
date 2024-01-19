@@ -25,6 +25,10 @@ DB_DATABASE=crafted_by
 DB_USERNAME=nicolas
 DB_PASSWORD=password
 
-php artisan migrate
+php artisan migrate (+ :fresh pour raz)
+
+php artisan db:seed --class=DatabaseSeeder
+
+
 
 

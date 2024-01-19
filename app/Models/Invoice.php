@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Invoices extends Model
+class Invoice extends Model
 {
     use HasFactory, HasUuids;
 
@@ -26,6 +26,6 @@ class Invoices extends Model
     public function product(): BelongsToMany
     {
         return $this->belongsToMany(Products::class)
-            ->withPivotValue('quantity');
+            ->withPivot('quantity');
     }
 }

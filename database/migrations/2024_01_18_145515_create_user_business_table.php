@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('business_specialities_pivot', function (Blueprint $table) {
+        Schema::create('user_business', function (Blueprint $table) {
+            $table->foreignUuid('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
             $table->foreignUuid('business_id');
             $table->foreign('business_id')
                 ->references('id')
                 ->on('businesses');
-            $table->foreignUuid('speciality_id');
-            $table->foreign('speciality_id')
-                ->references('id')
-                ->on('specialities');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('business_specialities_pivot');
+        Schema::dropIfExists('user_business');
     }
 };
