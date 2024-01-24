@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Factory as Faker;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Products>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
  */
-class ProductsFactory extends Factory
+class ProductFactory extends Factory
 {
     /**
      * Define the model's default state.

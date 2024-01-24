@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBusinessRequest;
 use App\Http\Requests\UpdateBusinessRequest;
+use App\Http\Resources\BusinessResource;
 use App\Models\Business;
+use App\Models\City;
+use App\Models\Speciality;
+use App\Models\Theme;
+use App\Models\Zip_code;
 
 class BusinessController extends Controller
 {
@@ -13,15 +18,8 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        return response()->json(Business::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+//        return response()->json(Business::all());
+        return BusinessResource::collection(Business::all());
     }
 
     /**
@@ -29,7 +27,34 @@ class BusinessController extends Controller
      */
     public function store(StoreBusinessRequest $request)
     {
-        //
+        $requestData = $request->all();
+
+        $zipCode = Zip_code::firstOrCreate(['number', $requestData['zip_code']]);
+        $requestData['zip_code_id'] = $zipCode->id;
+
+        $city = City::firstOrCreate(['name', $requestData['city']]);
+        $requestData['city_id'] = $city->id;
+
+        $theme = Theme::firstOrCreate([
+            'layer' => $requestData['layer'],
+            'color_hex_1' => $requestData['color_hex_1'],
+            'color_hex_2' => $requestData['color_hex_2'],
+        ]);
+        $requestData['theme_id'] = $theme->id;
+
+        $biz = Business::create($requestData);
+
+//        $biz->attach(user);
+
+        foreach ($requestData['speciality'] as $spec) {
+            $speciality = Speciality::where('name', $spec)->first();
+            if (null === $speciality) {
+                $speciality = Speciality::create(['name' => $spec]);
+            }
+            $biz->attach($speciality);
+        }
+
+        return new BusinessResource($biz);
     }
 
     /**
@@ -37,15 +62,7 @@ class BusinessController extends Controller
      */
     public function show(Business $business)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Business $business)
-    {
-        //
+        return new BusinessResource($business);
     }
 
     /**

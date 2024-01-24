@@ -6,7 +6,7 @@ use App\Models\Business;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Material;
-use App\Models\Products;
+use App\Models\Product;
 use App\Models\Size;
 use App\Models\Style;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,7 +19,7 @@ class ProductsSeeder extends Seeder
      */
     public function run(): void
     {
-        Products::factory()
+        Product::factory()
             ->count(10)
             ->for(Size::factory()->create())
             ->for(Category::factory()->create())

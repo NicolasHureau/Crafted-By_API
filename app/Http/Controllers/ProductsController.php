@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
-use App\Models\Products;
+use App\Http\Resources\ProductResource;
+use App\Models\Category;
+use App\Models\Color;
+use App\Models\Material;
+use App\Models\Product;
+use App\Models\Size;
+use App\Models\Style;
 
 class ProductsController extends Controller
 {
@@ -13,16 +19,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-
-        return response()->json(Products::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+//        return response()->json(Product::all());
+        return ProductResource::collection(Product::all());
     }
 
     /**
@@ -30,29 +28,46 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
-        //
+        $requestData = $request->all();
+
+        $size = Size::firstOrCreate([
+            'height' => $requestData['height'],
+            'width' => $requestData['width'],
+            'depth' => $requestData['depth'],
+            'capacity' => $requestData['capacity'],
+        ]);
+        $requestData['size_id'] = $size->id;
+
+        $category = Category::firstOrCreate(['category' => $requestData['category']]);
+        $requestData['category_id'] = $category->id;
+
+        $material = Material::firstOrCreate(['material' => $requestData['material']]);
+        $requestData['material_id'] = $material->id;
+
+        $style = Style::firstOrCreate(['style' => $requestData['style']]);
+        $requestData['style_id'] = $style->id;
+
+        $color = Color::firstOrCreate(['color' => $requestData['color']]);
+        $requestData['color_id'] = $color->id;
+
+        $requestData['active'] = true;
+
+        $product = Product::create($requestData);
+        return new ProductResource($product);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Products $products)
+    public function show(Product $product)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Products $products)
-    {
-        //
+        return new ProductResource($product);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductsRequest $request, Products $products)
+    public function update(UpdateProductsRequest $request, Product $products)
     {
         //
     }
@@ -60,7 +75,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $products)
+    public function destroy(Product $products)
     {
         //
     }

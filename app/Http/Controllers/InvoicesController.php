@@ -4,35 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreInvoicesRequest;
 use App\Http\Requests\UpdateInvoicesRequest;
+use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
+use App\Models\Status;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class InvoicesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): jsonResponse
+    public function index()
     {
-        $invoices = Invoice::all();
-        $invoicesList = [];
-        foreach ($invoices as $invoice) {
-            $invoicesList[] = [
-                'id' => $invoice->id,
-                'status' => $invoice->status->last(),
-                'customer' => $invoice->customer,
-                'products' => $invoice->product,
-            ];
-        }
-        return response()->json($invoicesList);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return InvoiceResource::collection(Invoice::all());
     }
 
     /**
@@ -40,23 +25,22 @@ class InvoicesController extends Controller
      */
     public function store(StoreInvoicesRequest $request)
     {
-        //
+        $invoice = Invoice::create($request->all());
+
+        $status = Status::where('number', 1)->first();
+        $invoice->status()->attach($status->id);
+
+        $invoice->product()->attach($request->product_id, ['quantity' => $request->product_quantity]);
+
+        return new InvoiceResource($invoice);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Invoice $invoices)
+    public function show(Invoice $invoice)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Invoice $invoices)
-    {
-        //
+        return new InvoiceResource($invoice);
     }
 
     /**

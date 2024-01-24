@@ -25,7 +25,7 @@ class Invoice extends Model
 
     public function product(): BelongsToMany
     {
-        return $this->belongsToMany(Products::class)
+        return $this->belongsToMany(Product::class)
             ->withPivot('quantity');
     }
 }

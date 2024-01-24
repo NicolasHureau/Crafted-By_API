@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoice_products', function (Blueprint $table) {
+        Schema::create('invoice_product', function (Blueprint $table) {
             $table->foreignUuid('invoice_id');
             $table->foreign('invoice_id')
                 ->references('id')
                 ->on('invoices');
-            $table->foreignUuid('products_id');
-            $table->foreign('products_id')
+            $table->foreignUuid('product_id');
+            $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
             $table->integer('quantity')->unsigned();

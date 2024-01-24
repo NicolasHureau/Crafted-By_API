@@ -13,6 +13,8 @@ class Zip_code extends Model
 
     protected $table = 'zip_code';
 
+    protected $fillable = ['number'];
+
     public function user(): HasMany
     {
         return $this->hasMany(User::class);

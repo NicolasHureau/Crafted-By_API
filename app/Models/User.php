@@ -31,6 +31,8 @@ class User extends Authenticatable
         'email',
         'password',
         'address',
+        'zip_code_id',
+        'city_id',
     ];
 
     /**
@@ -55,7 +57,7 @@ class User extends Authenticatable
 
     public function business(): BelongsToMany
     {
-        return $this->belongsToMany(Business::class);
+        return $this->belongsToMany(Business::class, 'user_business');
     }
 
     public function zipCode(): BelongsTo

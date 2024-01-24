@@ -11,6 +11,8 @@ class City extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $fillable = ['name'];
+
     public function user(): HasMany
     {
         return $this->hasMany(User::class);

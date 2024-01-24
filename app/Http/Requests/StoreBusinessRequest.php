@@ -22,7 +22,17 @@ class StoreBusinessRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'          => 'required|string|max:255',
+            'description'   => 'required|string',
+            'history'       => 'required|string',
+            'email'         => 'required|email',
+            'address'       => 'required|string|max:255',
+            'zip_code'      => 'required|string|max:5',
+            'city'          => 'required|string|max:255',
+            'speciality'    => 'array',
+            'layer'         => 'image',
+            'color_hex_1'   => 'hex_color',
+            'color_hex_2'   => 'hex_color',
         ];
     }
 }
