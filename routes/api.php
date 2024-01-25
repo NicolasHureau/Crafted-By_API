@@ -22,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('register', [UsersController::class, 'store']);
+Route::post('login', [UsersController::class, 'login']);
+Route::post('logout', [UsersController::class, 'logout']);
+
 Route::apiResource('users', UsersController::class);
 
 Route::apiResource('business', BusinessController::class);

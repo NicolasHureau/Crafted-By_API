@@ -14,6 +14,16 @@ use App\Models\Zip_code;
 class BusinessController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
