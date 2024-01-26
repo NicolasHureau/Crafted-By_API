@@ -6,7 +6,7 @@ use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class InvoicesPolicy
+class InvoicePolicy
 {
     /**
      * Determine whether the user can view any models.

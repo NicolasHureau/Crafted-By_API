@@ -25,9 +25,13 @@ creation des tables :
     DB_USERNAME=nicolas
     DB_PASSWORD=password
 
-php artisan migrate (+ :fresh pour raz)
+migration :
 
-php artisan db:seed --class=DatabaseSeeder
+    php artisan migrate (+ :fresh pour raz)
+
+seeding :
+
+    php artisan db:seed --class=DatabaseSeeder
 
 
 

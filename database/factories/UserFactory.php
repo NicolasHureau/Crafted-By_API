@@ -18,6 +18,46 @@ class UserFactory extends Factory
      */
     protected static ?string $password;
 
+    public function admin()
+    {
+        return $this->state(fn (array $attributes) => [
+            'lastname' => 'Strikwerda',
+            'firstname' => 'Ezra',
+            'email' => 'admin@admin.admin',
+            'email_verified_at' => now(),
+            'password' => static::$password ??= Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'address' => 'papeteries',
+        ])->afterCreating(function (User $user) {
+                $user->assignRole('admin');
+            });
+
+    }
+
+    public function owner()
+    {
+        return $this->state(fn (array $attributes) => [
+            'lastname' => 'Hureau',
+            'firstname' => 'Nicolas',
+            'email' => 'owner@owner.owner',
+            'email_verified_at' => now(),
+            'password' => static::$password ??= Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'address' => 'papeteries',
+        ])->afterCreating(function (User $user) {
+                $user->assignRole('owner');
+            });
+    }
+
+    public function customer()
+    {
+        return $this->state(fn (array $attributes) => [
+            'password' => static::$password ??= Hash::make('password'),
+        ])->afterCreating(function (User $user) {
+            $user->assignRole('customer');
+        });
+    }
+
     /**
      * Define the model's default state.
      *
