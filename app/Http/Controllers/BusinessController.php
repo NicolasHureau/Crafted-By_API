@@ -37,6 +37,7 @@ class BusinessController extends Controller
      */
     public function store(StoreBusinessRequest $request)
     {
+        $this->authorize('create', $request);
         $requestData = $request->all();
 
         $zipCode = Zip_code::firstOrCreate(['number', $requestData['zip_code']]);
@@ -80,7 +81,8 @@ class BusinessController extends Controller
      */
     public function update(UpdateBusinessRequest $request, Business $business)
     {
-        //
+        $this->authorize('edit business', $business);
+        $business->update($request->all());
     }
 
     /**
@@ -88,6 +90,7 @@ class BusinessController extends Controller
      */
     public function destroy(Business $business)
     {
-        //
+        $this->authorize('delete business', $business);
+        $business->delete();
     }
 }

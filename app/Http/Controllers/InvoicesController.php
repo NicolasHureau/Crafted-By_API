@@ -27,7 +27,12 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        return InvoiceResource::collection(Invoice::all());
+        $this->authorize('viewAny');
+        if (Auth::user()->hasRole('admin')) {
+            return InvoiceResource::collection(Invoice::all());
+        } else {
+            return InvoiceResource::collection(Invoice::where('customer_id', Auth::user()->getAuthIdentifier()));
+        }
     }
 
     /**
@@ -35,6 +40,7 @@ class InvoicesController extends Controller
      */
     public function store(StoreInvoicesRequest $request)
     {
+        $this->authorize('create', $request);
         $invoice = Invoice::create($request->all());
 
         $status = Status::where('number', 1)->first();
@@ -50,6 +56,7 @@ class InvoicesController extends Controller
      */
     public function show(Invoice $invoice)
     {
+        $this->authorize('view', $invoice);
         return new InvoiceResource($invoice);
     }
 

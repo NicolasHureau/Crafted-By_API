@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Business;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class BusinessPolicy
 {
@@ -29,7 +30,7 @@ class BusinessPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return Auth::check();
     }
 
     /**
@@ -37,7 +38,7 @@ class BusinessPolicy
      */
     public function update(User $user, Business $business): bool
     {
-        //
+        return $user->id === $business->owner()->id || $user->hasPermissionTo('edit business', 'api');
     }
 
     /**
@@ -45,7 +46,7 @@ class BusinessPolicy
      */
     public function delete(User $user, Business $business): bool
     {
-        //
+        return $user->id === $business->owner()->id || $user->hasPermissionTo('delete business', 'api');
     }
 
     /**

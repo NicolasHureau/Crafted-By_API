@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class InvoicePolicy
 {
@@ -13,7 +14,7 @@ class InvoicePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasPermissionTo('show invoices', 'api');
     }
 
     /**
@@ -21,7 +22,7 @@ class InvoicePolicy
      */
     public function view(User $user, Invoice $invoices): bool
     {
-        //
+        return $user->id === $invoices->customer()->id;
     }
 
     /**
@@ -29,7 +30,7 @@ class InvoicePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return Auth::check();
     }
 
     /**
@@ -37,7 +38,7 @@ class InvoicePolicy
      */
     public function update(User $user, Invoice $invoices): bool
     {
-        //
+        return $user->id === $invoices->customer()->id;
     }
 
     /**
@@ -45,7 +46,7 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoices): bool
     {
-        //
+        return $user->id === $invoices->customer()->id;
     }
 
     /**

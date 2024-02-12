@@ -29,7 +29,7 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->business()->exists();
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $products): bool
     {
-        //
+        return $user->business()->id === $products->business()->id;
     }
 
     /**
@@ -45,7 +45,8 @@ class ProductPolicy
      */
     public function delete(User $user, Product $products): bool
     {
-        //
+        return $user->business()->id === $products->business()->id;
+
     }
 
     /**

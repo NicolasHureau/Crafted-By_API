@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\City;
 use App\Models\User;
 use App\Models\Zip_code;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -75,6 +76,7 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
         return new UserResource($user);
     }
 
@@ -91,6 +93,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('edit', $user);
         $user->update($request->all());
     }
 
@@ -99,6 +102,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
         $user->delete();
     }
 
@@ -118,19 +122,21 @@ class UsersController extends Controller
         ]);
 
         $credentials = request(['email','password']);
-        if(!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials))
         {
             return response()->json([
                 'message' => 'Unauthorized'
             ],401);
         }
 
-        $user = $request->user();
+        $email = $request->get('email');
+        $user = User::where('email', $email)->first();
+
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->plainTextToken;
 
         return response()->json([
-            'accessToken' =>$token,
+            'accessToken' => $token,
             'token_type' => 'Bearer',
         ]);
     }

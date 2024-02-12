@@ -38,6 +38,7 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
+        $this->authorize('create', $request);
         $requestData = $request->all();
 
         $size = Size::firstOrCreate([
@@ -79,7 +80,8 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductsRequest $request, Product $products)
     {
-        //
+        $this->authorize('edit', $products);
+        $products->update($request->all());
     }
 
     /**
@@ -87,6 +89,7 @@ class ProductsController extends Controller
      */
     public function destroy(Product $products)
     {
-        //
+        $this->autorize('delete', $products);
+        $products->delete();
     }
 }
