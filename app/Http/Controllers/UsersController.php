@@ -138,6 +138,7 @@ class UsersController extends Controller
         return response()->json([
             'accessToken' => $token,
             'token_type' => 'Bearer',
+            'user' => $user,
         ]);
     }
 
