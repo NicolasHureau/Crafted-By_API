@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('business_id');
             $table->string('name');
             $table->text('description');
-            $table->float('price');
+            $table->decimal('price', total: 12, places: 2);
             $table->foreignUuid('category_id');
             $table->foreignUuid('material_id');
             $table->foreignUuid('style_id');
