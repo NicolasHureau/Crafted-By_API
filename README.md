@@ -1,6 +1,6 @@
 
 
-installation Postgresql :
+## Installation Postgresql :
 
     sudo apt install postgresql
     sudo -i -u postgres
@@ -12,11 +12,11 @@ installation Postgresql :
     ALTER ROLE <nom_utilisateur> WITH ENCRYPTED PASSWORD 'mon_mot_de_passe';
     \q (pour quitter)
 
-creation projet Laravel :
+## Creation projet Laravel :
 
     composer create-project laravel/laravel Crafted-By_API
 
-creation des tables :
+## Creation des tables :
 
     DB_CONNECTION=pgsql
     DB_HOST=127.0.0.1
@@ -25,14 +25,26 @@ creation des tables :
     DB_USERNAME=nicolas
     DB_PASSWORD=password
 
-migration :
+### Migration :
 
     php artisan migrate (+ :fresh pour raz)
 
-seeding :
+### Seeding :
 
     php artisan db:seed --class=DatabaseSeeder
 
+## Swagger :
 
+    composer require zircote/swagger-php
 
+Puis, pour chaque route, ajouter les annotations aux méthodes telle que :
 
+    /**
+    * @OA\Get(
+    *     path="/users",
+    *     summary="Get a list of users",
+    *     tags={"Users"},
+    *     @OA\Response(response=200, description="Successful operation"),
+    *     @OA\Response(response=400, description="Invalid request")
+    * )
+    */

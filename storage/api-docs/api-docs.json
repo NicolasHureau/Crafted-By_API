@@ -1,0 +1,188 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Crafted By API",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {
+        "/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get a list of products",
+                "description": "Returns list of products",
+                "operationId": "getProductList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Products Store",
+                "description": "Create Product",
+                "operationId": "addProduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/products/{product_id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Find a product by Id",
+                "description": "Return a single product",
+                "operationId": "getProductById",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Id of product to return",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a list of users",
+                "description": "Display a listing of the resource.",
+                "operationId": "5a61fd217e7500976e1ae5c5662a4903",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ProductResource": {
+                "title": "ProductResource",
+                "description": "Product resource",
+                "xml": {
+                    "name": "ProductResource"
+                }
+            },
+            "Product": {
+                "title": "Product model",
+                "description": "Product model",
+                "required": [
+                    "name",
+                    "price"
+                ],
+                "properties": {
+                    "Id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Product name",
+                        "type": "string",
+                        "example": "Chaise en bois rare"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Product description",
+                        "type": "string",
+                        "example": "Chaise en bois rare d'Indonésie taillé à la main."
+                    },
+                    "price": {
+                        "title": "Price",
+                        "description": "Product price",
+                        "type": "number",
+                        "format": "float",
+                        "example": "123.45"
+                    },
+                    "stock_quantity": {
+                        "title": "Stock quantity",
+                        "description": "Quantity of product available",
+                        "type": "integer",
+                        "example": "7"
+                    },
+                    "image": {
+                        "title": "Image",
+                        "description": "Image URL",
+                        "type": "url"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Is product available to sell",
+                        "type": "boolean"
+                    },
+                    "": {
+                        "title": "Business",
+                        "description": "Artisan who sell product",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}
