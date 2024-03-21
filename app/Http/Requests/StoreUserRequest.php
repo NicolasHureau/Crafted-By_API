@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use AllowDynamicProperties;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest

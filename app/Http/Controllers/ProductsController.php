@@ -15,6 +15,14 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ * )
+ */
 class ProductsController extends Controller
 {
     /**
@@ -38,7 +46,8 @@ class ProductsController extends Controller
      *       @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Product")),
+     *          @OA\JsonContent(ref="#/components/schemas/ProductCard")
+     *       ),
      *       @OA\Response(response=400, description="Invalid request")
      *   )
      */
@@ -56,15 +65,19 @@ class ProductsController extends Controller
      *     tags={"Products"},
      *     operationId="addProduct",
      *     description="Create Product",
-     *     security={ {"sanctum": {} }},
+     *     security={ {"bearerAuth": {} }},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\MediaType(
-     *             mediaType="multipart/form-data",
-     *             @OA\Schema(
-     *                 ref="#/components/schemas/Product"
-     *             )
-     *         )
+     *         @OA\JsonContent(ref="#/components/schemas/ProductModel")
+     *     ),
+     *     @OA\Response(
+     *         response="201",
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/ProductModel")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
      *     ),
      *     @OA\Response(
      *         response=405,
@@ -120,7 +133,7 @@ class ProductsController extends Controller
      *         @OA\Response(
      *           response=200,
      *           description="Successful operation",
-     *           @OA\JsonContent(ref="#/components/schemas/Product")
+     *           @OA\JsonContent(ref="#/components/schemas/ProductModel")
      *         ),
      *         @OA\Response(response=400, description="Invalid request")
      *     )
@@ -148,12 +161,12 @@ class ProductsController extends Controller
      *     ),
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/UpdateProductsRequest")
+     *         @OA\JsonContent(ref="#/components/schemas/ProductModel")
      *     ),
      *     @OA\Response(
      *         response="202",
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *         @OA\JsonContent(ref="#/components/schemas/ProductModel")
      *     ),
      *     @OA\Response(
      *         response=400,

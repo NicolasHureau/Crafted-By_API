@@ -25,6 +25,7 @@ class SpatieSeeder extends Seeder
         Permission::create(['name' => 'change role']);
 
         Permission::create(['name' => 'store business']);
+
         Permission::create(['name' => 'edit business']);
         Permission::create(['name' => 'delete business']);
         Permission::create(['name' => 'toggle business']);
@@ -49,6 +50,7 @@ class SpatieSeeder extends Seeder
             'show invoices',
             'store invoices',
             'edit invoices',
+            'store business',
             ]);
 
         $ownerRole = Role::create(['name' => 'owner']);

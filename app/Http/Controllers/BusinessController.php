@@ -10,6 +10,8 @@ use App\Models\City;
 use App\Models\Speciality;
 use App\Models\Theme;
 use App\Models\Zip_code;
+use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Response;
 
 class BusinessController extends Controller
 {
@@ -25,6 +27,18 @@ class BusinessController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/business",
+     *     summary="Get a list of business",
+     *     tags={"Business"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful opération",
+     *         @OA\JsonContent(type="array",
+     *              @OA\Items(type="object", ref="#/components/schemas/BusinessCard"))
+     *     ),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
      */
     public function index()
     {
@@ -34,6 +48,27 @@ class BusinessController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/business",
+     *     summary="Business Store",
+     *     tags={"Business"},
+     *     operationId="addBusiness",
+     *     description="Create Business",
+     *     security={ {"sanctum": {} }},
+     *     @OA\RequestBody(
+     *         required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/BusinessStore")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/BusinessCard")
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *          description="Invalid Input"
+     *     )
+     * )
      */
     public function store(StoreBusinessRequest $request)
     {
@@ -70,6 +105,25 @@ class BusinessController extends Controller
 
     /**
      * Display the specified resource.
+     * @OA\Get(
+     *     path="/business/{business_id}",
+     *     summary="Find a business by Id",
+     *     description="Return a single business",
+     *     tags={"Business"},
+     *     operationId="getBusinessById",
+     *     @OA\Parameter(
+     *         name="business_id",
+     *          in="path",
+     *          description="Id of business to return",
+     *          required=true
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/BusinessModel")
+     *     ),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
      */
     public function show(Business $business)
     {
@@ -78,19 +132,76 @@ class BusinessController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @OA\Put(
+     *       path="/business/{business_id}",
+     *       operationId="updateBusiness",
+     *       tags={"Business"},
+     *       summary="Update existing business",
+     *       description="Returns updated business data",
+     *       security={ {"sanctum": {} }},
+     *       @OA\Parameter(
+     *           name="business_id",
+     *           description="Business id",
+     *           required=true,
+     *           in="path",
+     *           @OA\Schema(type="uuid")
+     *       ),
+     *       @OA\RequestBody(
+     *           required=true,
+     *           @OA\JsonContent(ref="#/components/schemas/BusinessModel")
+     *       ),
+     *       @OA\Response(
+     *           response="202",
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/BusinessModel")
+     *       ),
+     *       @OA\Response(response=400, description="Bad Request"),
+     *       @OA\Response(response=401, description="Unauthenticated"),
+     *       @OA\Response(response=403, description="Forbidden"),
+     *       @OA\Response(response=404, description="Resource Not Found")
+     *   )
      */
     public function update(UpdateBusinessRequest $request, Business $business)
     {
         $this->authorize('edit business', $business);
         $business->update($request->all());
+        return (new BusinessResource($business))
+            ->response()
+            ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
      * Remove the specified resource from storage.
-     */
+     * @OA\Delete(
+     *         path="/business/{business_id}",
+     *         operationId="deleteBusiness",
+     *         tags={"Business"},
+     *         summary="Delete existing business",
+     *         description="Deletes a record and returns no content",
+     *         security={ {"sanctum": {} }},
+     *         @OA\Parameter(
+     *             name="business_id",
+     *             description="Business id",
+     *             required=true,
+     *             in="path",
+     *             @OA\Schema(
+     *                 type="uuid"
+     *             )
+     *         ),
+     *         @OA\Response(
+     *             response=204,
+     *             description="Successful operation",
+     *             @OA\JsonContent()
+     *          ),
+     *        @OA\Response(response=401, description="Unauthenticated"),
+     *        @OA\Response(response=403, description="Forbidden"),
+     *        @OA\Response(response=404, description="Resource Not Found")
+     *    )
+ */
     public function destroy(Business $business)
     {
         $this->authorize('delete business', $business);
         $business->delete();
+        return \response(null, Response::HTTP_NO_CONTENT);
     }
 }
