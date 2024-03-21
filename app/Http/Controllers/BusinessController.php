@@ -42,7 +42,6 @@ class BusinessController extends Controller
      */
     public function index()
     {
-//        return response()->json(Business::all());
         return BusinessResource::collection(Business::all());
     }
 
@@ -163,8 +162,10 @@ class BusinessController extends Controller
      */
     public function update(UpdateBusinessRequest $request, Business $business)
     {
-        $this->authorize('edit business', $business);
+        $this->authorize('update', $business);
+
         $business->update($request->all());
+
         return (new BusinessResource($business))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
@@ -200,8 +201,10 @@ class BusinessController extends Controller
  */
     public function destroy(Business $business)
     {
-        $this->authorize('delete business', $business);
+        $this->authorize('delete', $business);
+
         $business->delete();
+
         return \response(null, Response::HTTP_NO_CONTENT);
     }
 }

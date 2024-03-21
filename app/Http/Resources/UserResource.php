@@ -44,6 +44,24 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="city", title="City", type="string", example="Cran-Gevrier")
  * ),
   * @OA\Schema(
+  *     schema="UserUpdate",
+  *     description="User Model for update",
+  *     title="User Update",
+  *     type="object",
+  *      @OA\Property(
+  *           property="Id",
+  *           format="uuid",
+  *           description="ID",
+  *           title="ID",
+  *       ),
+  *      @OA\Property(property="lastname", title="Lastname", type="string"),
+  *      @OA\Property(property="firstname", title="Firstname", type="string"),
+  *      @OA\Property(property="email", title="Email", type="email"),
+  *      @OA\Property(property="address", title="Address", type="string"),
+  *      @OA\Property(property="zip_code", title="Postal Code", type="string"),
+  *      @OA\Property(property="city", title="City", type="string")
+  * ),
+  * @OA\Schema(
   *     schema="UserModel",
   *     title="UserModel",
   *     description="User Model",
@@ -74,8 +92,6 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-//        return parent::toArray($request);
-
         return [
             'id'        => $this->id,
             'lastname'  => $this->lastname,

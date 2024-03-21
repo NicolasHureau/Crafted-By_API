@@ -77,12 +77,5 @@ class User extends Authenticatable
         return $this->hasMany(Invoice::class);
     }
 
-//    public static function booted(): void
-//    {
-//        static::creating(function($model) {
-//            $model->id = Str::uuid();
-//        });
-//    }
-
     protected function getDefaultGuardName(): string { return 'api'; }
 }

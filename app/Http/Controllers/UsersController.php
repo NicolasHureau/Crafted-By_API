@@ -56,18 +56,16 @@ class UsersController extends Controller
      */
     public function index(): ResourceCollection
     {
-//        return response()->json(User::all());
-        if (Auth::user()->can('show users')) {
-            return UserResource::collection(User::all());
-        }
-        return false;
+        $this->authorize('viewany', Auth::user());
+
+        return UserResource::collection(User::all());
     }
 
     /**
      * Store a newly created resource in storage.
      * @OA\Post(
      *     path="/users",
-     *     summary="Users Store",
+     *     summary="User Store",
      *     tags={"Users"},
      *     operationId="addUser",
      *     description="Create User",
@@ -98,7 +96,9 @@ class UsersController extends Controller
 
         $user = User::create($requestData);
         $user->assignRole('customer');
-        return new UserResource($user);
+
+        $user = new UserResource($user);
+        return $this->getToken($user);
     }
 
     /**
@@ -127,16 +127,9 @@ class UsersController extends Controller
     public function show(User $user)
     {
         $this->authorize('view', $user);
+
         return new UserResource($user);
     }
-
-//    /**
-//     * Show the form for editing the specified resource.
-//     */
-//    public function edit(UsersController $user)
-//    {
-//        //
-//    }
 
     /**
      * Update the specified resource in storage.
@@ -152,11 +145,10 @@ class UsersController extends Controller
      *          description="User id",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="uuid")
      *      ),
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UserModel")
+     *          @OA\JsonContent(ref="#/components/schemas/UserUpdate")
      *      ),
      *      @OA\Response(
      *          response="202",
@@ -171,8 +163,10 @@ class UsersController extends Controller
  */
     public function update(Request $request, User $user)
     {
-        $this->authorize('edit', $user);
+        $this->authorize('update', $user);
+
         $user->update($request->all());
+
         return (new UserResource($user))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
@@ -192,9 +186,7 @@ class UsersController extends Controller
      *            description="User id",
      *            required=true,
      *            in="path",
-     *            @OA\Schema(
-     *                type="uuid"
-     *            )
+     *            @OA\Schema(type="uuid")
      *        ),
      *        @OA\Response(
      *            response=204,
@@ -208,8 +200,10 @@ class UsersController extends Controller
  */
     public function destroy(User $user)
     {
-        $this->authorize('delete', $user);
+        $this->authorize('delete', Auth::user());
+
         $user->delete();
+
         return \response(null, Response::HTTP_NO_CONTENT);
     }
 
@@ -224,7 +218,7 @@ class UsersController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="email", example="admin@admin.admin"),
+     *             @OA\Property(property="email", example="nicolas.hureau@crafted-by.com"),
      *              @OA\Property(property="password", example="password")
      *         )
      *     ),
@@ -269,8 +263,9 @@ class UsersController extends Controller
         ]);
 
         $credentials = request(['email','password']);
-        if (!Auth::attempt($credentials))
-        {
+
+        if (!Auth::attempt($credentials)) {
+
             return response()->json([
                 'message' => 'Unauthorized'
             ],401);
@@ -280,6 +275,11 @@ class UsersController extends Controller
         $user = User::where('email', $email)->first();
         $user = new UserResource($user);
 
+        return $this->getToken($user);
+    }
+
+    private function getToken(UserResource $user): JsonResponse
+    {
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->plainTextToken;
 
@@ -288,6 +288,7 @@ class UsersController extends Controller
             'token_type' => 'Bearer',
             'user' => $user,
         ]);
+
     }
 
     /**
@@ -314,6 +315,5 @@ class UsersController extends Controller
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
-
     }
 }

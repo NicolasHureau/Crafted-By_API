@@ -15,14 +15,6 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @OA\SecurityScheme(
- *     securityScheme="bearerAuth",
- *     type="http",
- *     scheme="bearer",
- *     bearerFormat="JWT",
- * )
- */
 class ProductsController extends Controller
 {
     /**
@@ -53,7 +45,6 @@ class ProductsController extends Controller
      */
     public function index(): ResourceCollection
     {
-//        return response()->json(Product::all());
         return ProductResource::collection(Product::all());
     }
 
@@ -65,7 +56,7 @@ class ProductsController extends Controller
      *     tags={"Products"},
      *     operationId="addProduct",
      *     description="Create Product",
-     *     security={ {"bearerAuth": {} }},
+     *     security={ {"sanctum": {} }},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/ProductModel")
@@ -188,7 +179,7 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductsRequest $request, Product $product)
     {
-        $this->authorize('edit', $product);
+        $this->authorize('update', $product);
         $product->update($request->all());
         return (new ProductResource($product))
             ->response()

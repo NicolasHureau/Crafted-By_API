@@ -271,7 +271,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "sanctum": []
                     }
                 ]
             }
@@ -527,10 +527,7 @@
                         "name": "user_id",
                         "in": "path",
                         "description": "User id",
-                        "required": true,
-                        "schema": {
-                            "type": "uuid"
-                        }
+                        "required": true
                     }
                 ],
                 "requestBody": {
@@ -538,7 +535,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UserModel"
+                                "$ref": "#/components/schemas/UserUpdate"
                             }
                         }
                     }
@@ -632,7 +629,7 @@
                             "schema": {
                                 "properties": {
                                     "email": {
-                                        "example": "admin@admin.admin"
+                                        "example": "nicolas.hureau@crafted-by.com"
                                     },
                                     "password": {
                                         "example": "password"
@@ -1054,6 +1051,42 @@
                 },
                 "type": "object"
             },
+            "UserUpdate": {
+                "title": "User Update",
+                "description": "User Model for update",
+                "properties": {
+                    "Id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "format": "uuid"
+                    },
+                    "lastname": {
+                        "title": "Lastname",
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "title": "Firstname",
+                        "type": "string"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "email"
+                    },
+                    "address": {
+                        "title": "Address",
+                        "type": "string"
+                    },
+                    "zip_code": {
+                        "title": "Postal Code",
+                        "type": "string"
+                    },
+                    "city": {
+                        "title": "City",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "UserModel": {
                 "title": "UserModel",
                 "description": "User Model",
@@ -1106,11 +1139,6 @@
                 "description": "Enter token in format (Bearer <token>)",
                 "name": "Authorization",
                 "in": "header"
-            },
-            "bearerAuth": {
-                "type": "http",
-                "bearerFormat": "JWT",
-                "scheme": "bearer"
             }
         }
     }
