@@ -100,8 +100,8 @@ class UserResource extends JsonResource
             $this->mergeWhen($request->user, [
                 'email'     => $this->email,
                 'address'   => $this->address,
-                'zip_code'  => $this->zipCode->number,
-                'city'      => $this->city->name,
+                'zip_code'  => $this->zipCode->number ?? null,
+                'city'      => $this->city->name ?? null,
                 'business'  => BusinessResource::collection($this->business),
                 'created_at' => $this->created_at,
             ]),

@@ -58,6 +58,7 @@ class InvoicesController extends Controller
      *     summary="Invoice Store",
      *     operationId="addInvoice",
      *     description="Create Invoice",
+     *     tags={"Invoices"},
      *     security={ {"sanctum": {} }},
      *     @OA\RequestBody(
      *         required=true,

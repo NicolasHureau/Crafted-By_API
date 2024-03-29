@@ -26,9 +26,9 @@ class StoreUserRequest extends FormRequest
             'firstname' => 'required|string|max:255',
             'email'     => 'required|email|unique:users',
             'password'  => 'required|string|min:8|confirmed',
-            'address'   => 'required|string|max:255',
-            'zip_code'  => 'required|string|max:5',
-            'city'      => 'required|string|max:255',
+//            'address'   => 'required|string|max:255',
+//            'zip_code'  => 'required|string|max:5',
+//            'city'      => 'required|string|max:255',
         ];
     }
 
@@ -48,15 +48,15 @@ class StoreUserRequest extends FormRequest
             'password.string'       => 'The password field must be a string.',
             'password.min'          => 'The password must be at least 8 characters long.',
             'password.confirmed'    => 'The password confirmation does not match.',
-            'address.required'      => 'The address field is required.',
-            'address.string'        => 'The address field must be a string.',
-            'address.max'           => 'The address field must not exceed 255 characters.',
-            'zip_code.required'     => 'The zip code field is required.',
-            'zip_code.integer'      => 'The zip code field must be an integer.',
-            'zip_code.max'          => 'The zip code field must not exceed 5 numbers.',
-            'city.required'         => 'The city field is required.',
-            'city.string'           => 'The city field must be a string.',
-            'city.max'              => 'The city field must not exceed 255 characters.',
+//            'address.required'      => 'The address field is required.',
+//            'address.string'        => 'The address field must be a string.',
+//            'address.max'           => 'The address field must not exceed 255 characters.',
+//            'zip_code.required'     => 'The zip code field is required.',
+//            'zip_code.integer'      => 'The zip code field must be an integer.',
+//            'zip_code.max'          => 'The zip code field must not exceed 5 numbers.',
+//            'city.required'         => 'The city field is required.',
+//            'city.string'           => 'The city field must be a string.',
+//            'city.max'              => 'The city field must not exceed 255 characters.',
         ];
     }
 }

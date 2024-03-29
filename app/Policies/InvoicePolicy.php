@@ -22,7 +22,7 @@ class InvoicePolicy
      */
     public function view(User $user, Invoice $invoices): bool
     {
-        return $user->id === $invoices->customer()->id;
+        return $user->id === $invoices->customer()->id ||  $user->hasPermissionTo('show invoices', 'api');
     }
 
     /**
@@ -38,7 +38,7 @@ class InvoicePolicy
      */
     public function update(User $user, Invoice $invoices): bool
     {
-        return $user->id === $invoices->customer()->id;
+        return $user->id === $invoices->customer()->id ||  $user->hasPermissionTo('update invoices', 'api');
     }
 
     /**
@@ -46,7 +46,7 @@ class InvoicePolicy
      */
     public function delete(User $user, Invoice $invoices): bool
     {
-        return $user->id === $invoices->customer()->id;
+        return $user->id === $invoices->customer()->id ||  $user->hasPermissionTo('delete invoices', 'api');
     }
 
     /**

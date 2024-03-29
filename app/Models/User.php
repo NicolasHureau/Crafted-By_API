@@ -65,11 +65,11 @@ class User extends Authenticatable
 
     public function zipCode(): BelongsTo
     {
-        return $this->belongsTo(Zip_code::class);
+        return $this->belongsTo(Zip_code::class, 'id');
     }
     public function city(): BelongsTo
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class, 'id');
     }
 
     public function invoices(): HasMany

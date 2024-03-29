@@ -15,7 +15,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('show users');
+        return $user->hasPermissionTo('show users', 'api');
     }
 
     /**

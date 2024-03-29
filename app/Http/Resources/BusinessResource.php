@@ -92,13 +92,17 @@ class BusinessResource extends JsonResource
 
         $specialities = [];
         foreach ($this->speciality as $spec){
-            $specialities[] = $spec->name;
+            $specialities[] = [
+                'id' => $spec->id,
+                'name' => $spec->name
+            ];
         }
 
         return [
             'id'            => $this->id,
             'name'          => $this->name,
             'email'         => $this->email,
+            'logo'          => $this->logo,
             'theme'         => new ThemeResource($this->theme),
             $this->mergeWhen($request->business, [
                 'owners'        => UserResource::collection($this->owner),
@@ -107,7 +111,6 @@ class BusinessResource extends JsonResource
                 'address'       => $this->address,
                 'zip_code'      => $this->zipCode->number,
                 'city'          => $this->city->name,
-                'logo'          => $this->logo,
                 'specialities'  => $specialities,
                 'products'      => ProductResource::collection($this->products),
                 'created_at'    => $this->created_at,

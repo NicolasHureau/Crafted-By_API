@@ -19,32 +19,32 @@ class SpatieSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'show users']);
-        Permission::create(['name' => 'edit users']);
-        Permission::create(['name' => 'delete users']);
-        Permission::create(['name' => 'change role']);
+        Permission::create(['name' => 'show users', 'guard_name' => 'api']);
+        Permission::create(['name' => 'edit users', 'guard_name' => 'api']);
+        Permission::create(['name' => 'delete users', 'guard_name' => 'api']);
+        Permission::create(['name' => 'change role', 'guard_name' => 'api']);
 
-        Permission::create(['name' => 'store business']);
+        Permission::create(['name' => 'store business', 'guard_name' => 'api']);
 
-        Permission::create(['name' => 'edit business']);
-        Permission::create(['name' => 'delete business']);
-        Permission::create(['name' => 'toggle business']);
-        Permission::create(['name' => 'add teammate']);
+        Permission::create(['name' => 'edit business', 'guard_name' => 'api']);
+        Permission::create(['name' => 'delete business', 'guard_name' => 'api']);
+        Permission::create(['name' => 'toggle business', 'guard_name' => 'api']);
+        Permission::create(['name' => 'add teammate', 'guard_name' => 'api']);
 
-        Permission::create(['name' => 'store products']);
-        Permission::create(['name' => 'edit products']);
-        Permission::create(['name' => 'delete products']);
-        Permission::create(['name' => 'toggle products']);
+        Permission::create(['name' => 'store products', 'guard_name' => 'api']);
+        Permission::create(['name' => 'edit products', 'guard_name' => 'api']);
+        Permission::create(['name' => 'delete products', 'guard_name' => 'api']);
+        Permission::create(['name' => 'toggle products', 'guard_name' => 'api']);
 
-        Permission::create(['name' => 'show invoices']);
-        Permission::create(['name' => 'store invoices']);
-        Permission::create(['name' => 'edit invoices']);
-        Permission::create(['name' => 'delete invoices']);
+        Permission::create(['name' => 'show invoices', 'guard_name' => 'api']);
+        Permission::create(['name' => 'store invoices', 'guard_name' => 'api']);
+        Permission::create(['name' => 'edit invoices', 'guard_name' => 'api']);
+        Permission::create(['name' => 'delete invoices', 'guard_name' => 'api']);
 
         // create roles and assign created permissions
 
         // this can be done as separate statements
-        $customerRole = Role::create(['name' => 'customer']);
+        $customerRole = Role::create(['name' => 'customer', 'guard_name' => 'api']);
         $customerRole->givePermissionTo([
             'edit users',
             'show invoices',
@@ -53,7 +53,7 @@ class SpatieSeeder extends Seeder
             'store business',
             ]);
 
-        $ownerRole = Role::create(['name' => 'owner']);
+        $ownerRole = Role::create(['name' => 'owner', 'guard_name' => 'api']);
         $ownerRole->givePermissionTo([
             'edit users',
             'add teammate',
@@ -65,7 +65,7 @@ class SpatieSeeder extends Seeder
             'show invoices',
         ]);
 
-        $adminRole = Role::create(['name' => 'admin']);
+        $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'api']);
         $adminRole->givePermissionTo([
             'show users',
             'edit users',
@@ -84,7 +84,7 @@ class SpatieSeeder extends Seeder
 //        $role = Role::create(['name' => 'moderator'])
 //            ->givePermissionTo(['publish articles', 'unpublish articles']);
 
-        $role = Role::create(['name' => 'super-admin']);
+        $role = Role::create(['name' => 'super-admin', 'guard_name' => 'api']);
         $role->givePermissionTo(Permission::all());
     }
 }

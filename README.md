@@ -37,6 +37,10 @@
 
     composer require zircote/swagger-php
 
+Pour accéder à la documentation :
+
+    http://localhost:8000/api/documentation#/
+
 Puis, pour chaque route, ajouter les annotations aux méthodes telle que :
 
     /**

@@ -76,10 +76,13 @@ class ProductResource extends JsonResource
             'image'     => $this->image,
             'price'     => $this->price,
             'active'    => $this->active,
-            'business'      => new BusinessResource($this->business),
+            $this->mergeWhen(!$request->business, [
+                'business'  => new BusinessResource($this->business),
+            ]),
             $this->mergeWhen($request->product, [
+                'business'      => new BusinessResource($this->business),
                 'description'   => $this->description,
-                'stock_quantity'=> $this->stock_quantity,
+                'stock'         => $this->stock,
                 'height'        => $this->whenNotNull($this->size->height),
                 'width'         => $this->whenNotNull($this->size->width),
                 'depth'         => $this->whenNotNull($this->size->depth),
@@ -88,7 +91,6 @@ class ProductResource extends JsonResource
                 'material'      => $this->material->name,
                 'style'         => $this->style->name,
                 'color'         => $this->color->name,
-//                'stock'         => $this->stock,
                 'created_at'    => $this->created_at,
             ]),
             'quantity' => $this->whenPivotLoaded('invoice_product', function () {

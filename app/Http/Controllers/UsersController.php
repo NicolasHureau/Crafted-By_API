@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
-use App\Models\City;
 use App\Models\User;
-use App\Models\Zip_code;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -88,11 +87,11 @@ class UsersController extends Controller
     {
         $requestData = $request->all();
 
-        $zipCode = Zip_code::firstOrCreate(['number' => $requestData['zip_code']]);
-        $requestData['zip_code_id'] = $zipCode->id;
-
-        $city = City::firstOrCreate(['name' => $requestData['city']]);
-        $requestData['city_id'] = $city->id;
+//        $zipCode = Zip_code::firstOrCreate(['number' => $requestData['zip_code']]);
+//        $requestData['zip_code_id'] = $zipCode->id;
+//
+//        $city = City::firstOrCreate(['name' => $requestData['city']]);
+//        $requestData['city_id'] = $city->id;
 
         $user = User::create($requestData);
         $user->assignRole('customer');
@@ -124,9 +123,9 @@ class UsersController extends Controller
      *         @OA\Response(response=400, description="Invalid request")
      *     )
      */
-    public function show(User $user)
+    public function show(User $user): UserResource
     {
-        $this->authorize('view', $user);
+        $this->authorize('view', Auth::user());
 
         return new UserResource($user);
     }
@@ -160,15 +159,24 @@ class UsersController extends Controller
      *       @OA\Response(response=403, description="Forbidden"),
      *       @OA\Response(response=404, description="Resource Not Found")
      *  )
- */
-    public function update(Request $request, User $user)
+     * @throws AuthorizationException
+     */
+    public function update(Request $request, User $user): JsonResponse
     {
-        $this->authorize('update', $user);
+        $this->authorize('update', Auth::user());
+
+        $request->validate([
+            'firstname' => 'string',
+            'lastname' => 'string',
+            'email' => 'required|string|email'
+        ]);
 
         $user->update($request->all());
 
-        return (new UserResource($user))
-            ->response()
+        return response()
+            ->json([
+                'message' => 'Successfully updated',
+                'data' => new UserResource($user)])
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
@@ -291,16 +299,16 @@ class UsersController extends Controller
 
     }
 
-    /**
-     * Get the authenticated User
-     *
-     * @param Request $request
-     * @return JsonResponse [json] user object
-     */
-    public function user(Request $request)
-    {
-        return response()->json($request->user());
-    }
+//    /**
+//     * Get the authenticated User
+//     *
+//     * @param Request $request
+//     * @return JsonResponse [json] user object
+//     */
+//    public function user(Request $request)
+//    {
+//        return response()->json($request->user());
+//    }
 
     /**
      * Logout user (Revoke the token)

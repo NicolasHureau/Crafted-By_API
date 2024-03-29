@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
@@ -23,14 +24,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('register', [UsersController::class, 'store']);
-Route::post('login', [UsersController::class, 'login']);
-Route::post('logout', [UsersController::class, 'logout']);
+Route::post('login',    [AuthController::class, 'login']);
+Route::post('logout',   [AuthController::class, 'logout']);
+Route::put('password',  [AuthController::class, 'updatePassword']);
 
-Route::apiResource('users', UsersController::class);
+Route::apiResource('users',     UsersController::class);
 
-Route::apiResource('business', BusinessController::class);
+Route::apiResource('business',  BusinessController::class);
 
-Route::apiResource('products', ProductsController::class);
+Route::apiResource('products',  ProductsController::class);
 
-Route::apiResource('invoices', InvoicesController::class);
+Route::apiResource('invoices',  InvoicesController::class);
 

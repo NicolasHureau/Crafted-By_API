@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignUuid('zip_code_id');
+            $table->foreignUuid('zip_code_id')->nullable();
             $table->foreign('zip_code_id')
                 ->references('id')
                 ->on('zip_code');
-            $table->foreignUuid('city_id');
+            $table->foreignUuid('city_id')->nullable();
             $table->foreign('city_id')
                 ->references('id')
                 ->on('cities');

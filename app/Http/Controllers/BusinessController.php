@@ -10,7 +10,10 @@ use App\Models\City;
 use App\Models\Speciality;
 use App\Models\Theme;
 use App\Models\Zip_code;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use OpenApi\Annotations as OA;
+use Ramsey\Collection\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
 class BusinessController extends Controller
@@ -40,7 +43,7 @@ class BusinessController extends Controller
      *     @OA\Response(response=400, description="Invalid request")
      * )
      */
-    public function index()
+    public function index(): ResourceCollection
     {
         return BusinessResource::collection(Business::all());
     }
@@ -124,7 +127,7 @@ class BusinessController extends Controller
      *     @OA\Response(response=400, description="Invalid request")
      * )
      */
-    public function show(Business $business)
+    public function show(Business $business): BusinessResource
     {
         return new BusinessResource($business);
     }
@@ -160,7 +163,7 @@ class BusinessController extends Controller
      *       @OA\Response(response=404, description="Resource Not Found")
      *   )
      */
-    public function update(UpdateBusinessRequest $request, Business $business)
+    public function update(UpdateBusinessRequest $request, Business $business): JsonResponse
     {
         $this->authorize('update', $business);
 
@@ -199,7 +202,7 @@ class BusinessController extends Controller
      *        @OA\Response(response=404, description="Resource Not Found")
      *    )
  */
-    public function destroy(Business $business)
+    public function destroy(Business $business): Response
     {
         $this->authorize('delete', $business);
 

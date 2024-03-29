@@ -11,8 +11,8 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Schema(
  *     schema="InvoiceModel",
- *     title="Invoice Model,
- *     type="Object,
+ *     title="Invoice Model",
+ *     type="Object",
  *     @OA\Property(
  *           property="Id",
  *           format="uuid",
