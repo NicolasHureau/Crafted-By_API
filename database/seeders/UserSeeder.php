@@ -19,8 +19,8 @@ class UserSeeder extends Seeder
         User::factory()
             ->count(3)
             ->customer()
-            ->for(Zip_code::factory()->create())
-            ->for(City::factory()->create())
+//            ->for(Zip_code::factory()->create())
+//            ->for(City::factory()->create())
             ->create();
     }
 }

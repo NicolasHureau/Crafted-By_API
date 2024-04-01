@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\City;
 use App\Models\User;
+use App\Models\Zip_code;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -28,6 +30,8 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'address' => 'papeteries',
+            'zip_code_id' => Zip_code::factory()->create()->id,
+            'city_id' => City::factory()->create()->id,
         ])->afterCreating(function (User $user) {
                 $user->assignRole('admin');
             });
@@ -44,6 +48,8 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'address' => 'papeteries',
+            'zip_code_id' => Zip_code::factory()->create()->id,
+            'city_id' => City::factory()->create()->id,
         ])->afterCreating(function (User $user) {
                 $user->assignRole('owner');
             });
@@ -53,6 +59,8 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'password' => static::$password ??= Hash::make('password'),
+            'zip_code_id' => Zip_code::factory()->create()->id,
+            'city_id' => City::factory()->create()->id,
         ])->afterCreating(function (User $user) {
             $user->assignRole('customer');
         });
@@ -67,6 +75,7 @@ class UserFactory extends Factory
     {
         $faker = Faker::create('fr_FR');
         return [
+            'id' => Str::uuid(),
             'lastname' => $faker->lastname(),
             'firstname' => $faker->firstName(),
             'email' => $faker->unique()->safeEmail(),
