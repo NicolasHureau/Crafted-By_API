@@ -4,8 +4,8 @@
     </IfModule>
 
 #CORS
-<ifModule mod_headers.c>
-    Header set Access-Control-Allow-Origin: *
+  <ifModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
   </ifModule>
 
     RewriteEngine On

@@ -19,7 +19,7 @@ class ColorFactory extends Factory
     {
         $faker = Faker::create('fr_FR');
         return [
-          'name' => $faker->colorName(),
+          'name' => strtolower($faker->colorName()),
         ];
     }
 }

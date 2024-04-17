@@ -64,7 +64,7 @@ class UsersController extends Controller
      * Store a newly created resource in storage.
      * @OA\Post(
      *     path="/users",
-     *     summary="User Store",
+     *     summary="Create User",
      *     tags={"Users"},
      *     operationId="addUser",
      *     description="Create User",
@@ -136,7 +136,7 @@ class UsersController extends Controller
      *      path="/users/{user_id}",
      *      operationId="updateUser",
      *      tags={"Users"},
-     *      summary="Update existing user",
+     *      summary="Update existing userby id",
      *      description="Returns updated user data",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(

@@ -11,6 +11,7 @@ use App\Models\Material;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\Style;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,9 +44,21 @@ class ProductsController extends Controller
      *       @OA\Response(response=400, description="Invalid request")
      *   )
      */
-    public function index(): ResourceCollection
+    public function index(Request $request): ResourceCollection
     {
-        return ProductResource::collection(Product::all());
+        $products = Product::query();
+
+        foreach (request()->query() as $key => $value)
+        {
+            if (!is_null($value))
+            {
+                $products = $products->$key($value);
+            }
+        };
+
+        $products = $products->get();
+
+        return ProductResource::collection($products);
     }
 
     /**

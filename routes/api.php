@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\FiltersController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UsersController;
@@ -33,6 +34,8 @@ Route::apiResource('users',     UsersController::class);
 Route::apiResource('business',  BusinessController::class);
 
 Route::apiResource('products',  ProductsController::class);
+
+Route::apiResource('filters',  FiltersController::class);
 
 Route::apiResource('invoices',  InvoicesController::class);
 

@@ -19,13 +19,28 @@ class ProductsSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::factory()
-            ->count(10)
-            ->for(Size::factory()->create())
-            ->for(Category::factory()->create())
-            ->for(Material::factory()->create())
-            ->for(Style::factory()->create())
-            ->for(Color::factory()->create())
-            ->create();
+        $size = Size::factory()->count(10)->create();
+        $category = Category::factory()->count(10)->create();
+        $material = Material::factory()->count(10)->create();
+        $style = Style::factory()->count(10)->create();
+        $color = Color::factory()->count(10)->create();
+
+        $counter = 0;
+        $numberOfProducts = 30;
+
+        while ($counter < $numberOfProducts)
+        {
+            Product::factory()
+                ->count(3)
+                ->for($size->shift())
+                ->for($category->shift())
+                ->for($material->shift())
+                ->for($style->shift())
+                ->for($color->shift())
+                ->create();
+
+            $counter += 3;
+        }
+
     }
 }
