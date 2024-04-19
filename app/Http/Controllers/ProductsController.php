@@ -26,6 +26,7 @@ class ProductsController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->middleware('XSS');
     }
 
     /**
@@ -44,7 +45,7 @@ class ProductsController extends Controller
      *       @OA\Response(response=400, description="Invalid request")
      *   )
      */
-    public function index(Request $request): ResourceCollection
+    public function index(): ResourceCollection
     {
         $products = Product::query();
 
@@ -52,6 +53,7 @@ class ProductsController extends Controller
         {
             if (!is_null($value))
             {
+                // Product model Laravel query scopes use
                 $products = $products->$key($value);
             }
         };

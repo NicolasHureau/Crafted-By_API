@@ -86,7 +86,7 @@ class Product extends Model
     {
         return $query->where('category_id', $category);
     }
-    public function scopeInput(Builder $query, string $input)
+    public function scopeSearch(Builder $query, string $input)
     {
         return $query->where('name','LIKE', '%'.$input.'%')
             ->orWhereHas('color', function ($query) use ($input) {

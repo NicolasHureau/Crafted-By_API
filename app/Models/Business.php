@@ -66,4 +66,19 @@ class Business extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('name', 'ilike', '%' . $search . '%')
+            ->orWhereHas('owner', function ($query) use ($search) {
+                return $query
+                    ->where('lastname', 'ilike', '%' . $search . '%')
+                    ->orWhere('firstname', 'ilike', '%' . $search . '%');
+            })
+            ->orWhereHas('city', function ($query) use ($search) {
+                return $query->where('name', 'ilike', '%' . $search . '%');
+            })
+            ->orWhereHas('speciality', function ($query) use ($search) {
+                return $query->where('name', 'ilike', '%' . $search . '%');
+            });
+    }
 }

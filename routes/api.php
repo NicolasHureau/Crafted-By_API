@@ -29,6 +29,7 @@ Route::post('login',    [AuthController::class, 'login']);
 Route::post('logout',   [AuthController::class, 'logout']);
 Route::put('password',  [AuthController::class, 'updatePassword']);
 
+
 Route::apiResource('users',     UsersController::class);
 
 Route::apiResource('business',  BusinessController::class);

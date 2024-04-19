@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BusinessController extends Controller
 {
     /**
-     * Instantiate a new controller instance.
+     * Instantiate a new controller instance with sanctum middleware exceptions.
      *
      * @return void
      */
@@ -45,7 +45,16 @@ class BusinessController extends Controller
      */
     public function index(): ResourceCollection
     {
-        return BusinessResource::collection(Business::all());
+        $businesses = Business::query();
+
+        if (request()->has('search'))
+        {
+            $businesses = $businesses->search(request()->query('search'));
+        }
+
+        $businesses = $businesses->get();
+
+        return BusinessResource::collection($businesses);
     }
 
     /**
