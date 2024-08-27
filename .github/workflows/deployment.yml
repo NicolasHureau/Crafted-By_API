@@ -32,6 +32,11 @@ jobs:
         name: Checkout code
       - name: Set Version Environment Variable
         run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+      - name: Start SSH Agent and Add Key
+        run: |
+          eval $(ssh-agent -s)
+          echo "${{ secrets.SERVER_SSH_KEY }}" | tr -d '\r' | ssh-add - <<< "${{ secrets.SERVER_SSH_PASSPHRASE }}"
+        shell: bash
       - name: Deploy to server
         uses: appleboy//ssh-action@v0.1.4
         with:
