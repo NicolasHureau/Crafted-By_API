@@ -12,7 +12,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN docker-php-ext-install pdo_pgsql pdo
 
 # Installer les dépendances PHP
-RUN composer install --optimize-autoloader
+#RUN composer install --optimize-autoloader
+RUN composer install --no-interaction
 
 COPY supervisord.conf /etc/supervisor/conf.d/
 COPY nginx.conf /etc/nginx/sites-available/default
