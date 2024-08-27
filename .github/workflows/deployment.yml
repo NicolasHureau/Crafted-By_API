@@ -39,7 +39,6 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd dockerfiles/api/
             sed -i "s|nicolashureau/crafted_by_api:.*|nicolashureau/crafted_by_api:${{ env.VERSION }}|g" docker-compose.yml
             sudo docker pull nicolashureau/crafted_by_api:${{ env.VERSION }}
             sudo docker compose up -d
