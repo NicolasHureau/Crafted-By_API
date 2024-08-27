@@ -52,3 +52,56 @@ Puis, pour chaque route, ajouter les annotations aux méthodes telle que :
     *     @OA\Response(response=400, description="Invalid request")
     * )
     */
+
+# DOCKER
+
+## Container Database
+
+### RAW
+
+On as besoin d'une image docker postgres : 
+
+    docker pull postgres:latest
+
+Ensuite on lance le container avec les bon arguments :
+
+    docker run --name Crafted-By_DB -e POSTGRES_PASSWORD=password -e POSTGRES_USER=nicolas -p 5432:5432 -d postgres   
+
+Creer la db pour le projet dans le container :
+
+    docker exec -it Crafted-By_DB bash
+
+(pour vérifier les container : 
+    
+    docker ps
+)
+
+    psql -h localhost -U nicolas
+
+    CREATE DATABASE crafted_by
+
+(pour vérifier la création de la db :
+
+    \l
+
+    :q
+)
+
+### docker-compose.yml
+
+    db:
+        container_name: crafted_by_db
+        image: postgres:latest
+        ports:
+            - 5432:5432
+        volumes:
+            - ./Crafted-By_DB:/var/lib/postgresql
+        environment:
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_USER=nicolas
+            - POSTGRES_DB=crafted_by
+
+Pour finir, on peut lancer les migrations artisan puis les seeder.
+
+## CONTAINER BACK-END + NGINX
+
