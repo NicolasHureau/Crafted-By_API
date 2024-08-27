@@ -32,18 +32,12 @@ jobs:
         name: Checkout code
       - name: Set Version Environment Variable
         run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
-      - name: Start SSH Agent and Add Key
-        run: |
-          eval $(ssh-agent -s)
-          echo "${{ secrets.SERVER_SSH_KEY }}" | tr -d '\r' | ssh-add - <<< "${{ secrets.SERVER_SSH_PASS }}"
-        shell: bash
       - name: Deploy to server
         uses: appleboy//ssh-action@v0.1.4
         with:
           host: ${{secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          passphrase: ${{ secrets.SERVER_SSH_PASS }}
           script: |
             cd dockerfiles/api/
             sed -i "s|nicolashureau/crafted_by_api:.*|nicolashureau/crafted_by_api:${{ env.VERSION }}|g" docker-compose.yml
