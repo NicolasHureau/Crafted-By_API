@@ -4,7 +4,7 @@ FROM php:8.2-fpm
 COPY --chown=www-data:www-data . /var/www/html/
 
 # Installation de Nginx et Supervisor
-RUN apt-get update && apt-get install -y nginx supervisor htop libpq-dev git zip unzip zircote/swagger-php
+RUN apt-get update && apt-get install -y nginx supervisor htop libpq-dev git zip unzip
 
 # Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
